@@ -4,20 +4,21 @@ class Story < Issue
     acts_as_list
 
     def self.condition(project_id, sprint_id, extras=[])
+      subproject_ids = Project.find(project_id).descendants.active.collect{|p| p.id}
       if sprint_id.nil?  
         c = ["
           parent_id is NULL
-          and project_id = ?
+          and project_id in (?,?)
           and tracker_id in (?)
           and fixed_version_id is NULL
-          and is_closed = ?", project_id, Story.trackers, false]
+          and is_closed = ?", project_id, subproject_ids, Story.trackers, false]
       else
         c = ["
           parent_id is NULL
-          and project_id = ?
+          and project_id in (?,?)
           and tracker_id in (?)
           and fixed_version_id = ?",
-          project_id, Story.trackers, sprint_id]
+          project_id, subproject_ids, Story.trackers, sprint_id]
       end
 
       if extras.size > 0
