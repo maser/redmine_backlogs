@@ -18,7 +18,11 @@ class Task < Issue
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
     attribs['author_id'] = user_id
     attribs['tracker_id'] = Task.tracker
-    attribs['project_id'] = project_id
+    if attribs.has_key?('parent_issue_id') then
+        attribs['project_id'] = Task.find(attribs['parent_issue_id']).project_id
+    else
+        attribs['project_id'] = project_id
+    end    
 
     task = new(attribs)
 
