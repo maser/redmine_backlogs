@@ -12,8 +12,11 @@
 </select>
 
 <select class="assignee_id helper" id="assigned_to_id_options">
-  <%-  User.find(:all).each do |user| %>
-  <option value="<%= user.id %>"><%= user.name %></option>
+  <option value=""></option>
+  <%-  Member.find_all_by_project_id(@project.id).each do |member| %>
+  <%- unless member.user.nil? %>
+    <option value="<%= member.principal %>"><%= member.user %></option>
+  <%- end %>
   <%- end %>
 </select>
 
