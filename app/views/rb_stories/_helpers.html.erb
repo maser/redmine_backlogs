@@ -15,7 +15,7 @@
   <option value=""></option>
   <%-  Member.find_all_by_project_id(@project.id).each do |member| %>
   <%- unless member.user.nil? %>
-    <option value="<%= member.principal %>"><%= member.user %></option>
+    <option value="<%= member.user.id %>"><%= member.user %></option>
   <%- end %>
   <%- end %>
 </select>
