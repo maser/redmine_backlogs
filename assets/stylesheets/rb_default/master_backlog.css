@@ -191,7 +191,7 @@
   left:105%;
 }
 #backlogs_container .backlog .sprint .effective_date{
-  left:131%;
+  left:159%;
 }
 #backlogs_container .backlog .stories{
   list-style:none;
@@ -230,21 +230,13 @@
 #backlogs_container .stories .story .tracker_id{
   display:none;
 }
-#backlogs_container .stories .story .id{
-  display:block;
-  height:24px;
-  left:10px;
-  position:absolute;
-  top:1px;
-  width:55px;
-  white-space:nowrap;
-}
-#backlogs_container .stories .story .id .t * {
+
+#backlogs_container .stories .story .id {
   background-color:#cfc;
   display:block;
   font-size:10px;
   height:14px;
-  left:0px;
+  left:0;
   line-height:14px;
   overflow:hidden;
   padding-right:3px;
@@ -253,7 +245,7 @@
   text-decoration:none;
   top:5px;
   vertical-align:middle;
-  width:52px;
+  width:8%;
   -moz-border-radius:4px;
   -webkit-border-radius:4px;
 }
