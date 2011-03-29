@@ -186,6 +186,7 @@
   line-height:31px;
   position:absolute;
   top:2px;
+  width: 50%;
 }
 #backlogs_container .backlog .sprint .sprint_start_date{
   left:105%;
