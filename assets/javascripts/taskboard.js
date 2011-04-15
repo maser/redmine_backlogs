@@ -27,7 +27,9 @@ RB.Taskboard = RB.Object.create(RB.Model, {
       placeholder: 'placeholder',
       start: self.dragStart,
       stop: self.dragStop,
-      update: self.dragComplete
+      update: self.dragComplete,
+      activate: self.dragInitPossibleStatus,
+      deactivate: self.dragResetPossibleStatus
     });
 
     // Initialize each task in the board
@@ -59,18 +61,49 @@ RB.Taskboard = RB.Object.create(RB.Model, {
   
   dragComplete: function(event, ui) {
     var isDropTarget = (ui.sender==null); // Handler is triggered for source and target. Thus the need to check.
-
+    
     if(isDropTarget){
-      ui.item.data('this').saveDragResult();
+      // check whether this is an allowed status transition
+      var thisStatus = parseInt(ui.item.parent('td').first().attr('id').split('_')[1]);
+      if (ui.item.data('this').canChangeIntoStatus(thisStatus)) {
+        // save
+        ui.item.data('this').saveDragResult();
+      } else {
+        // cancel doesn’t work in this callback
+        ui.item.data('shouldCancel', true);
+      }
     }    
   },
-  
-  dragStart: function(event, ui){ 
+
+  dragStart: function(event, ui){
     ui.item.addClass("dragging");
   },
   
-  dragStop: function(event, ui){ 
-    ui.item.removeClass("dragging");  
+  dragStop: function(event, ui){
+    ui.item.removeClass("dragging");
+
+    // cancel sort if status is not allowed
+    if (ui.item.data('shouldCancel')) {
+      $(this).sortable('cancel');
+    }
+    ui.item.data('shouldCancel', null);
+  },
+
+  // mark the status as possible or impossible by adding
+  // a class to the element
+  dragInitPossibleStatus: function(event, ui) {
+    var thisStatus = parseInt($(this).attr('id').split('_')[1]);
+    if (ui.item.data('this').canChangeIntoStatus(thisStatus)) {
+      $(this).addClass('status-possible');
+    } else {
+      $(this).addClass('status-impossible');
+    }
+  },
+
+  // remove the status possibility markings
+  dragResetPossibleStatus: function(event, ui) {
+    $(this).removeClass('status-possible');
+    $(this).removeClass('status-impossible');
   },
 
   handleAddNewImpedimentClick: function(event){

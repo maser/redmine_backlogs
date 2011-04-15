@@ -31,6 +31,22 @@ RB.Task = RB.Object.create(RB.Issue, {
     return "Task";
   },
 
+  // is a status change to newStatus allowed?
+  canChangeIntoStatus: function(newStatus) {
+    var curStatus = parseInt(this.$.find('.status_id').text());
+    var trackerId = parseInt(this.$.find('.tracker_id').text());
+
+    if (newStatus == curStatus) {
+      return true;
+    } else {
+      var allowed = $.map(RB.constants.transitions[trackerId]['from-'+curStatus], function(status) {
+        return status['id'];
+      });
+
+      return allowed.indexOf(newStatus) != -1;
+    }
+  },
+
   markIfClosed: function(){
     if(this.$.parent('td').first().hasClass('closed')){
       this.$.addClass('closed');

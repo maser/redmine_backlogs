@@ -364,3 +364,11 @@ See RB.Taskboard.initialize()
 #warning{
   background-image:url('images/warning.png');
 }
+
+.status-possible{
+  background-color: #8eff93;
+}
+
+.status-impossible{
+  background-color: #ffaf8f;
+}
