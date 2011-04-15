@@ -315,6 +315,10 @@
   display:none;
 }
 
+#backlogs_container .stories .story .helpers {
+  display: none;
+}
+
 /* dialog */
 
 .ui-dialog .ui-dialog-titlebar-close{

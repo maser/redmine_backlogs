@@ -89,7 +89,15 @@ RB.Model = RB.Object.create({
       var input;
       
       $(document.createElement("label")).text(fieldName.replace(/_/ig, " ").replace(/ id$/ig,"")).appendTo(editor);
-      input = fieldType=='select' ? $('#' + fieldName + '_options').clone(true) : $(document.createElement(fieldType));
+      if (fieldType == 'select') {
+        if (self.$.find('.' + fieldName + '_options').size() > 0) {
+          input = self.$.find('.' + fieldName + '_options').clone(true);
+        } else {
+          input = $('#' + fieldName + '_options').clone(true);
+        }
+      } else {
+        input = $(document.createElement(fieldType));
+      }
       input.removeAttr('id');
       input.attr('name', fieldName);
       input.addClass(fieldName);
