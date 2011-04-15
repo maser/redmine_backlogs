@@ -42,6 +42,19 @@ RB.Impediment = RB.Object.create(RB.Task, {
       url: url,
       data: data
     }
-  }
+  },
 
+
+  // is a status change to newStatus allowed?
+  canChangeIntoStatus: function(newStatus) {
+    var curStatus = parseInt(this.$.find('.status_id').text());
+    var trackerId = parseInt(this.$.find('.tracker_id').text());
+
+    if (newStatus == curStatus) {
+      return true;
+    } else {
+      var allowed = $.map(this.$.find('.status_transitions').text().split(','), function(id) { return parseInt(id); });
+      return allowed.indexOf(newStatus) != -1;
+    }
+  }
 });

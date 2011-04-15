@@ -14,6 +14,7 @@
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>
     <div class="status_id"><%= impediment.status_id %></div>
+    <div class="status_transitions"><%= impediment.status.find_new_statuses_allowed_to(User.current.roles_for_project(impediment.project), impediment.tracker).map(&:id).join(',') %></div>
     <%= render :partial => "shared/model_errors", :object => impediment.errors %>
   </div>
 </div>

@@ -47,7 +47,9 @@ RB.Taskboard = RB.Object.create(RB.Model, {
       placeholder: 'placeholder',
       start: self.dragStart,
       stop: self.dragStop,
-      update: self.dragComplete
+      update: self.dragComplete,
+      activate: self.dragInitPossibleStatus,
+      deactivate: self.dragResetPossibleStatus
     });
 
     // Initialize each task in the board
