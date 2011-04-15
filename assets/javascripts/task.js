@@ -39,10 +39,7 @@ RB.Task = RB.Object.create(RB.Issue, {
     if (newStatus == curStatus) {
       return true;
     } else {
-      var allowed = $.map(RB.constants.transitions[trackerId]['from-'+curStatus], function(status) {
-        return status['id'];
-      });
-
+      var allowed = $.map(this.$.find('.status_transitions').text().split(','), function(id) { return parseInt(id); });
       return allowed.indexOf(newStatus) != -1;
     }
   },
