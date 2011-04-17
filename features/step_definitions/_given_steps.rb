@@ -157,6 +157,12 @@ Given /^the project has the following sprints:$/ do |table|
   end
 end
 
+Given /^there are no other projects$/ do
+  Project.all.each do |p|
+    p.destroy unless p == @project
+  end
+end
+
 Given /^the project has the following stories in the product backlog:$/ do |table|
   @project.issues.delete_all
   prev_id = ''
