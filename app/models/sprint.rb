@@ -48,10 +48,10 @@ class Burndown
 
       backlog ||= sprint.stories
       _series[0] = [
-        backlog.inject(0) {|sum, story| sum + story.story_points.to_f }, # committed
-        (assume ? 0 : backlog.select {|s| s.descendants.select{|t| !t.closed?}.size == 0 }.inject(0) {|sum, story| sum + story.story_points.to_f }),
-        (assume ? 0 : backlog.select {|s| s.closed? }.inject(0) {|sum, story| sum + story.story_points.to_f }),
-        backlog.inject(0) {|sum, story| sum + story.estimated_hours.to_f } # remaining
+        BurndownDay.points_committed(backlog),
+        (assume ? 0 : BurndownDay.points_resolved(backlog)),
+        (assume ? 0 : BurndownDay.points_accepted(backlog)),
+        BurndownDay.estimated_hours(backlog)
       ]
       cache(days[0], _series[0])
     end

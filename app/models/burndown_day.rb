@@ -21,4 +21,9 @@ class BurndownDay < ActiveRecord::Base
     def self.remaining_hours(backlog)
       backlog.select {|s| not s.closed? && s.descendants.select{|t| !t.closed?}.size != 0}.inject(0) {|sum, story| sum + story.remaining_hours.to_f }
     end
+    
+    # number of estimated hours
+    def self.estimated_hours(backlog)
+      backlog.inject(0) {|sum, story| sum + story.estimated_hours.to_f }
+    end
 end
