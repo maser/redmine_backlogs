@@ -101,7 +101,7 @@ module Backlogs
       def backlogs_before_validation
         return unless self.project.module_enabled? 'backlogs'
 
-        if self.tracker_id == Task.tracker
+        if self.tracker_id == Task.tracker || self.descendants.empty?
           self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
           self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
         end
