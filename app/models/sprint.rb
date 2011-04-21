@@ -60,10 +60,10 @@ class Burndown
     if !_series[-1]
       backlog ||= sprint.stories
       _series[-1] = [
-        backlog.inject(0) {|sum, story| sum + story.story_points.to_f },
-        backlog.select {|s| s.descendants.select{|t| !t.closed?}.size == 0}.inject(0) {|sum, story| sum + story.story_points.to_f },
-        backlog.select {|s| s.closed? }.inject(0) {|sum, story| sum + story.story_points.to_f },
-        backlog.select {|s| not s.closed? && s.descendants.select{|t| !t.closed?}.size != 0}.inject(0) {|sum, story| sum + story.remaining_hours.to_f } 
+        BurndownDay.points_committed(backlog),
+        BurndownDay.points_resolved(backlog),
+        BurndownDay.points_accepted(backlog),
+        BurndownDay.remaining_hours(backlog)
       ]
       cache(days[-1], _series[-1])
     end
